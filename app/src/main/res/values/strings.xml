@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Book Lis tApp</string>
+    <string name="search">search</string>
+    <string name="book_search_title">Enter book title</string>
 </resources>
