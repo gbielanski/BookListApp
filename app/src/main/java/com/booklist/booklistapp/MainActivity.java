@@ -18,16 +18,17 @@ public class MainActivity extends AppCompatActivity {
         task.execute();
     }
 
-    class BookAsyncTask extends AsyncTask<String, Void, String>{
+    class BookAsyncTask extends AsyncTask<Void, Void, String> {
 
         @Override
-        protected String doInBackground(String... url) {
-
-            if(url.length == 0 || TextUtils.isEmpty(url[0]))
+        protected String doInBackground(Void... params) {
+            URL url = QueryUtils.getApiURL();
+            if (url == null)
                 return null;
 
-            return null;
+            String jsonResponse = QueryUtils.fetchDataFromServer(url);
 
+            return jsonResponse;
         }
     }
 }
