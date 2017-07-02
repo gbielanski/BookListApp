@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,17 +19,17 @@ public class MainActivity extends AppCompatActivity {
         task.execute();
     }
 
-    class BookAsyncTask extends AsyncTask<Void, Void, String> {
+    class BookAsyncTask extends AsyncTask<Void, Void, List<Book>> {
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected List<Book> doInBackground(Void... params) {
             URL url = QueryUtils.getApiURL();
             if (url == null)
                 return null;
 
-            String jsonResponse = QueryUtils.fetchDataFromServer(url);
+            List<Book> booksList = QueryUtils.fetchDataFromServer(url);
 
-            return jsonResponse;
+            return booksList;
         }
     }
 }

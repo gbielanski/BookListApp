@@ -2,6 +2,7 @@ package com.booklist.booklistapp;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class QueryUtils {
     public static final String BOOK_API_URL = "";
@@ -17,7 +18,7 @@ public class QueryUtils {
         return url;
     }
 
-    public static String fetchDataFromServer(URL url) {
+    public static List<Book> fetchDataFromServer(URL url) {
         return null;
     }
 }
