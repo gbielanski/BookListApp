@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected List<Book> doInBackground(Void... params) {
-            URL url = QueryUtils.getApiURL();
+            URL url = QueryUtils.getApiURL(getString(R.string.book_api_key));
             if (url == null)
                 return null;
 
