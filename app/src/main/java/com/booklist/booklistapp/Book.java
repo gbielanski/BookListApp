@@ -20,7 +20,7 @@ class Book {
         StringBuilder formattedAuthorsName = new StringBuilder("no data about author");
         for (int i = 0; i < mAuthorsNames.length; i++) {
             if(i == 0) {
-                formattedAuthorsName.delete(0, formattedAuthorsName.length()-1);
+                formattedAuthorsName.delete(0, formattedAuthorsName.length());
                 formattedAuthorsName.append(mAuthorsNames[i]);
             }
             else
