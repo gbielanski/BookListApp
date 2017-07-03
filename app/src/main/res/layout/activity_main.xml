@@ -30,9 +30,21 @@
             tools:text="Search" />
     </LinearLayout>
 
-    <ListView
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/empty_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/not_found" />
+
+        <ListView
         android:id="@+id/books_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@android:layout/simple_list_item_2"/>
+    </FrameLayout>
 </LinearLayout>

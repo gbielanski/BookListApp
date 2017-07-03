@@ -93,8 +93,12 @@ public class QueryUtils {
             httpURLConnection.setReadTimeout(10000);
             httpURLConnection.connect();
 
-            InputStream inputStream = httpURLConnection.getInputStream();
-            jsonData = readFromStream(inputStream);
+            int responseCode = httpURLConnection.getResponseCode();
+            if (responseCode == 200) {
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                jsonData = readFromStream(inputStream);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,7 +106,6 @@ public class QueryUtils {
             if (httpURLConnection != null)
                 httpURLConnection.disconnect();
         }
-        Log.v("jsonData", jsonData);
         return jsonData;
     }
 
