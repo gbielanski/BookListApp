@@ -1,15 +1,9 @@
 package com.booklist.booklistapp;
 
-import static android.R.attr.author;
-
 class Book {
     public Book(String [] authorsNames, String title) {
         this.mAuthorsNames = authorsNames;
         this.mTitle = title;
-    }
-
-    public String [] getAuthorsNames() {
-        return mAuthorsNames;
     }
 
     public String getTitle() {

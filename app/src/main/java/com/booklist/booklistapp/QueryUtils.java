@@ -18,15 +18,17 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.apiKey;
+
 public class QueryUtils {
     public static final String BOOK_API_URL = "https://www.googleapis.com/books/v1/volumes";
 
-    public static URL getApiURL(String apiKey) {
+    public static URL getApiURL(String searchWord, String apiKey) {
         URL url = null;
 
         try {
             Uri uri = Uri.parse(BOOK_API_URL).buildUpon()
-                    .appendQueryParameter("q", "intitle:doors")
+                    .appendQueryParameter("q", "intitle:" + searchWord)
                     .appendQueryParameter("key", apiKey)
                     .appendQueryParameter("maxResults", "20")
                     .build();
