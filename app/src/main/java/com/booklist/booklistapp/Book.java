@@ -1,19 +1,35 @@
 package com.booklist.booklistapp;
 
+import static android.R.attr.author;
+
 class Book {
-    public Book(String authorName, String title) {
-        this.mAuthorName = authorName;
+    public Book(String [] authorsNames, String title) {
+        this.mAuthorsNames = authorsNames;
         this.mTitle = title;
     }
 
-    public String getAuthorName() {
-        return mAuthorName;
+    public String [] getAuthorsNames() {
+        return mAuthorsNames;
     }
 
     public String getTitle() {
         return mTitle;
     }
 
-    private String mAuthorName;
+    public String getFormattedAuthorsNames(){
+        StringBuilder formattedAuthorsName = new StringBuilder("no data about author");
+        for (int i = 0; i < mAuthorsNames.length; i++) {
+            if(i == 0) {
+                formattedAuthorsName.delete(0, formattedAuthorsName.length()-1);
+                formattedAuthorsName.append(mAuthorsNames[i]);
+            }
+            else
+                formattedAuthorsName.append(", " + mAuthorsNames[i]);
+        }
+
+        return formattedAuthorsName.toString();
+    }
+
+    private String [] mAuthorsNames;
     private String mTitle;
 }
