@@ -21,9 +21,9 @@ import static com.booklist.booklistapp.R.id.empty_text_view;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
-    public static final String SEARCH_WORD = "SEARCH_WORD";
-    public static final int LOADER_ID = 12345;
-    public static final String SAVED_SEARCH_STRING = "SAVED_SEARCH_STRING";
+    private static final String SEARCH_WORD = "SEARCH_WORD";
+    private static final int LOADER_ID = 12345;
+    private static final String SAVED_SEARCH_STRING = "SAVED_SEARCH_STRING";
     private ListView mBookListView;
     private BooksAdapter mAdapter;
     private EditText mEditText;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mBookListView = (ListView) findViewById(R.id.books_list_view);
 
-        mAdapter = new BooksAdapter(this, 0, new ArrayList<Book>());
+        mAdapter = new BooksAdapter(this, new ArrayList<Book>());
         mBookListView.setAdapter(mAdapter);
         if (savedInstanceState != null)
             mBookListView.onRestoreInstanceState(savedInstanceState.getParcelable(LISTVIEW_STATE));

@@ -18,12 +18,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.apiKey;
+class QueryUtils {
+    private static final String BOOK_API_URL = "https://www.googleapis.com/books/v1/volumes";
 
-public class QueryUtils {
-    public static final String BOOK_API_URL = "https://www.googleapis.com/books/v1/volumes";
-
-    public static URL getApiURL(String searchWord, String apiKey) {
+    static URL getApiURL(String searchWord, String apiKey) {
         URL url = null;
 
         try {
@@ -39,10 +37,9 @@ public class QueryUtils {
         return url;
     }
 
-    public static List<Book> fetchDataFromServer(URL url) {
+    static List<Book> fetchDataFromServer(URL url) {
         String jsonData = getBooksJsonData(url);
-        ArrayList<Book> books = parseJson2BooksList(jsonData);
-        return books;
+        return parseJson2BooksList(jsonData);
     }
 
     private static ArrayList<Book> parseJson2BooksList(String jsonData) {

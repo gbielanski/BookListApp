@@ -9,8 +9,8 @@ import java.util.List;
 
 class BooksLoader extends AsyncTaskLoader<List<Book>> {
 
-    private Context mContext;
-    private String mSearchWord;
+    final private Context mContext;
+    final private String mSearchWord;
     BooksLoader(Context context, String searchWord) {
         super(context);
         mContext = context;

@@ -1,11 +1,14 @@
 package com.booklist.booklistapp;
 
+import android.support.annotation.NonNull;
+
 class Book {
     Book(String [] authorsNames, String title) {
         this.mAuthorsNames = authorsNames;
         this.mTitle = title;
     }
 
+    @NonNull
     String getTitle() {
         return mTitle;
     }
