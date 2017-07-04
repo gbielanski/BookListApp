@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 class BooksAdapter extends ArrayAdapter<Book> {
-    public BooksAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Book> books) {
+    BooksAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Book> books) {
         super(context, 0, books);
     }
 
