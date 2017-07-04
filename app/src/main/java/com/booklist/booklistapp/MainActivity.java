@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Parcelable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,8 +21,10 @@ import java.util.List;
 
 import static com.booklist.booklistapp.R.id.empty_text_view;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>{
 
+    public static final String SEARCH_WORD = "SEARCH_WORD";
+    public static final int LOADER_ID = 12345;
     private ListView mBookListView;
     private BooksAdapter mAdapter;
     private EditText mEditText;
@@ -71,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
                     emptyTextView.setText(getString(R.string.not_found));
                     String searchString = mEditText.getText().toString();
                     searchString.replace(" ", "+");
-                    BookAsyncTask task = new BookAsyncTask();
-                    task.execute(searchString);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(SEARCH_WORD, searchString);
+                    getSupportLoaderManager().restartLoader(LOADER_ID, bundle, MainActivity.this).forceLoad();
 
                 } else
                     emptyTextView.setText(getString(R.string.no_connection));
@@ -80,31 +85,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    class BookAsyncTask extends AsyncTask<String, Void, List<Book>> {
+    @Override
+    public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
+        String searchWord = args.getString(SEARCH_WORD);
+        return new BooksLoader(MainActivity.this, searchWord);
+    }
 
-        @Override
-        protected List<Book> doInBackground(String... params) {
+    @Override
+    public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
+        mAdapter.addAll(books);
+        mAdapter.notifyDataSetChanged();
+    }
 
-            if (params.length == 0 || params[0] == null || params[0].isEmpty())
-                return null;
+    @Override
+    public void onLoaderReset(Loader<List<Book>> loader) {
+        mAdapter.clear();
 
-            URL url = QueryUtils.getApiURL(params[0], getString(R.string.book_api_key));
-            if (url == null)
-                return null;
-
-            List<Book> booksList = QueryUtils.fetchDataFromServer(url);
-
-            return booksList;
-        }
-
-        @Override
-        protected void onPostExecute(List<Book> books) {
-            if (books == null)
-                return;
-
-            mAdapter.addAll(books);
-            mAdapter.notifyDataSetChanged();
-        }
     }
 
     @Override
