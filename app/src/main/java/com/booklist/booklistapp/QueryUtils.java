@@ -49,7 +49,11 @@ class QueryUtils {
 
         try {
             JSONObject root = new JSONObject(jsonData);
-            JSONArray items = root.getJSONArray("items");
+            JSONArray items = root.optJSONArray("items");
+
+            if(items == null)
+                return books;
+
             for (int item_idx = 0; item_idx < items.length(); item_idx++) {
                 JSONObject item = items.getJSONObject(item_idx);
                 JSONObject volumeInfor = item.getJSONObject("volumeInfo");
