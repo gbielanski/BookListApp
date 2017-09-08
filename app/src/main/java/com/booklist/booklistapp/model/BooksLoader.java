@@ -16,6 +16,9 @@ public class BooksLoader extends AsyncTaskLoader<List<Book>> {
 
     final private Context mContext;
     final private String mSearchWord;
+
+    private List<Book> mData;
+
     public BooksLoader(Context context, String searchWord) {
         super(context);
         mContext = context;
@@ -23,11 +26,31 @@ public class BooksLoader extends AsyncTaskLoader<List<Book>> {
     }
 
     @Override
+    protected void onStartLoading() {
+        if (mData != null) {
+            // Use cached data
+            deliverResult(mData);
+        } else {
+            forceLoad();
+        }
+    }
+
+    @Override
     public List<Book> loadInBackground() {
         URL url = QueryUtils.getApiURL(mSearchWord, mContext.getString(R.string.book_api_key));
         if (url == null)
-            return null;
+            mData = null;
+        else
+            mData = QueryUtils.fetchDataFromServer(url);
+        return mData;
+    }
 
-        return QueryUtils.fetchDataFromServer(url);
+    @Override
+    public void deliverResult(List<Book> data) {
+        // We’ll save the data for later retrieval
+        mData = data;
+        // We can do any pre-processing we want here
+        // Just remember this is on the UI thread so nothing lengthy!
+        super.deliverResult(data);
     }
 }

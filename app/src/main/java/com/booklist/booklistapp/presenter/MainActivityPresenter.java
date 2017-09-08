@@ -71,9 +71,26 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
         if(savedSearchString.isEmpty() == false){
             Bundle bundle = new Bundle();
             bundle.putString(SEARCH_WORD, savedSearchString);
-            loaderManager.restartLoader(LOADER_ID, bundle, this).forceLoad();
-            search(savedSearchString);
+            searchOnCreate(savedSearchString);
         }
+    }
+
+    private void searchOnCreate(String savedSearchString) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected) {
+            if (!savedSearchString.isEmpty()) {
+                Bundle bundle = new Bundle();
+                bundle.putString(SEARCH_WORD, savedSearchString);
+                loaderManager.initLoader(LOADER_ID, bundle, this);
+            }
+        } else
+            view.displayNoConnection();
     }
 
     private void search(String savedSearchString) {
@@ -88,7 +105,7 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
             if (!savedSearchString.isEmpty()) {
                 Bundle bundle = new Bundle();
                 bundle.putString(SEARCH_WORD, savedSearchString);
-                loaderManager.restartLoader(LOADER_ID, bundle, this).forceLoad();
+                loaderManager.restartLoader(LOADER_ID, bundle, this);
             }
         } else
             view.displayNoConnection();

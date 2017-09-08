@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView
 
     @Override
     public void displayBooks(List<Book> books) {
+        mAdapter.clear();
         mAdapter.addAll(books);
         mAdapter.notifyDataSetChanged();
     }
