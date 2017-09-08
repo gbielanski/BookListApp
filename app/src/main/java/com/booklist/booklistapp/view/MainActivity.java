@@ -1,12 +1,8 @@
 package com.booklist.booklistapp.view;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -14,7 +10,6 @@ import android.widget.TextView;
 
 import com.booklist.booklistapp.R;
 import com.booklist.booklistapp.model.Book;
-import com.booklist.booklistapp.model.BooksLoader;
 import com.booklist.booklistapp.presenter.MainActivityPresenter;
 
 import java.util.ArrayList;
@@ -24,14 +19,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.booklist.booklistapp.R.id.empty_text_view;
-
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>,
-        MainActivityView
+public class MainActivity extends AppCompatActivity implements MainActivityView
 {
 
-    private static final String SEARCH_WORD = "SEARCH_WORD";
-    private static final int LOADER_ID = 12345;
+    public static final String SEARCH_WORD = "SEARCH_WORD";
     private static final String SAVED_SEARCH_STRING = "SAVED_SEARCH_STRING";
 
     @BindView(R.id.search_editText) EditText searchEditText;
@@ -46,79 +37,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = new MainActivityPresenter(this, null);
+        presenter = new MainActivityPresenter(this, null, this, getSupportLoaderManager());
         String savedSearchString = "";
         if (savedInstanceState != null)
             savedSearchString = savedInstanceState.getString(SAVED_SEARCH_STRING);
 
         mAdapter = new BooksAdapter(this, new ArrayList<Book>());
+        booksListView.setEmptyView(emptyTextView);
         booksListView.setAdapter(mAdapter);
         if (savedInstanceState != null)
             booksListView.onRestoreInstanceState(savedInstanceState.getParcelable(LISTVIEW_STATE));
-
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        emptyTextView = (TextView) findViewById(empty_text_view);
-        booksListView.setEmptyView(emptyTextView);
-        if (isConnected) {
-            emptyTextView.setText(getString(R.string.not_found));
-            if (!savedSearchString.isEmpty()) {
-                Bundle bundle = new Bundle();
-                bundle.putString(SEARCH_WORD, savedSearchString);
-                getSupportLoaderManager().restartLoader(LOADER_ID, bundle, this).forceLoad();
-            }
-        } else
-            emptyTextView.setText(getString(R.string.no_connection));
-
         searchEditText.setText(savedSearchString);
+
+        presenter.onCreate(savedSearchString);
     }
 
     @OnClick(R.id.search_button)
     public void search(){
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        mAdapter.clear();
-        mAdapter.notifyDataSetChanged();
-
-        if (isConnected) {
-            emptyTextView.setText(getString(R.string.not_found));
-            String searchString = searchEditText.getText().toString();
-            searchString = searchString.replace(" ", "+");
-            Bundle bundle = new Bundle();
-            bundle.putString(SEARCH_WORD, searchString);
-            getSupportLoaderManager().restartLoader(LOADER_ID, bundle, MainActivity.this).forceLoad();
-
-        } else
-            emptyTextView.setText(getString(R.string.no_connection));
-
-    }
-    @Override
-    public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
-        String searchWord = args.getString(SEARCH_WORD);
-        return new BooksLoader(MainActivity.this, searchWord);
+        String searchString = searchEditText.getText().toString();
+        presenter.onSearchButton(searchString);
     }
 
-    @Override
-    public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
-        mAdapter.addAll(books);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Book>> loader) {
-        mAdapter.clear();
-
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -136,6 +75,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void displayNoBooks() {
+        mAdapter.clear();
+        mAdapter.notifyDataSetChanged();
+        emptyTextView.setText(getString(R.string.not_found));
+    }
 
+    @Override
+    public void displayNoConnection() {
+        mAdapter.clear();
+        mAdapter.notifyDataSetChanged();
+        emptyTextView.setText(getString(R.string.no_connection));
     }
 }

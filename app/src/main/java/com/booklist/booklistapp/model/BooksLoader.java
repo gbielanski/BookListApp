@@ -1,7 +1,10 @@
 package com.booklist.booklistapp.model;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 
 import com.booklist.booklistapp.R;
 
@@ -27,6 +30,4 @@ public class BooksLoader extends AsyncTaskLoader<List<Book>> {
 
         return QueryUtils.fetchDataFromServer(url);
     }
-
-
 }
