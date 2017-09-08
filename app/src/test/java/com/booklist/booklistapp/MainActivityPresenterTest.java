@@ -1,6 +1,9 @@
 package com.booklist.booklistapp;
 
+import com.booklist.booklistapp.model.Book;
+import com.booklist.booklistapp.presenter.MainActivityPresenter;
 import com.booklist.booklistapp.repositories.BooksRepository;
+import com.booklist.booklistapp.view.MainActivityView;
 
 import org.junit.Assert;
 import org.junit.Test;

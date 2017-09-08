@@ -1,4 +1,4 @@
-package com.booklist.booklistapp;
+package com.booklist.booklistapp.model;
 
 import android.support.annotation.NonNull;
 
@@ -6,17 +6,17 @@ public class Book {
     public Book() {
     }
 
-    Book(String [] authorsNames, String title) {
+    public Book(String [] authorsNames, String title) {
         this.mAuthorsNames = authorsNames;
         this.mTitle = title;
     }
 
     @NonNull
-    String getTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    String getFormattedAuthorsNames(){
+    public String getFormattedAuthorsNames(){
         StringBuilder formattedAuthorsName = new StringBuilder("---");
         for (int i = 0; i < mAuthorsNames.length; i++) {
             if(i == 0) {

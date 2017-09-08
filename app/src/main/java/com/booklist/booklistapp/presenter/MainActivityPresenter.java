@@ -1,12 +1,13 @@
-package com.booklist.booklistapp;
+package com.booklist.booklistapp.presenter;
 
 
+import com.booklist.booklistapp.view.MainActivityView;
+import com.booklist.booklistapp.model.Book;
 import com.booklist.booklistapp.repositories.BooksRepository;
 
-import java.math.BigInteger;
 import java.util.List;
 
-class MainActivityPresenter {
+public class MainActivityPresenter {
     private MainActivityView view;
     private BooksRepository booksRepository;
 

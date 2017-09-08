@@ -1,4 +1,4 @@
-package com.booklist.booklistapp;
+package com.booklist.booklistapp.view;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.booklist.booklistapp.R;
+import com.booklist.booklistapp.model.Book;
+import com.booklist.booklistapp.model.BooksLoader;
+import com.booklist.booklistapp.presenter.MainActivityPresenter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +27,7 @@ import butterknife.OnClick;
 import static com.booklist.booklistapp.R.id.empty_text_view;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>,
-    MainActivityView
+        MainActivityView
 {
 
     private static final String SEARCH_WORD = "SEARCH_WORD";
@@ -125,7 +130,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void displayBooks(List<Book> books) {
-
+        mAdapter.addAll(books);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

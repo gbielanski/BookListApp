@@ -1,7 +1,9 @@
-package com.booklist.booklistapp;
+package com.booklist.booklistapp.model;
 
 import android.net.Uri;
 import android.util.Log;
+
+import com.booklist.booklistapp.model.Book;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,10 +20,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-class QueryUtils {
+public class QueryUtils {
     private static final String BOOK_API_URL = "https://www.googleapis.com/books/v1/volumes";
 
-    static URL getApiURL(String searchWord, String apiKey) {
+    public static URL getApiURL(String searchWord, String apiKey) {
         URL url = null;
 
         try {
@@ -37,7 +39,7 @@ class QueryUtils {
         return url;
     }
 
-    static List<Book> fetchDataFromServer(URL url) {
+    public static List<Book> fetchDataFromServer(URL url) {
         String jsonData = getBooksJsonData(url);
         return parseJson2BooksList(jsonData);
     }

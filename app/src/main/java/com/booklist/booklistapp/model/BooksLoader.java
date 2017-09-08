@@ -1,17 +1,19 @@
-package com.booklist.booklistapp;
+package com.booklist.booklistapp.model;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
+
+import com.booklist.booklistapp.R;
 
 import java.net.URL;
 import java.util.List;
 
 
-class BooksLoader extends AsyncTaskLoader<List<Book>> {
+public class BooksLoader extends AsyncTaskLoader<List<Book>> {
 
     final private Context mContext;
     final private String mSearchWord;
-    BooksLoader(Context context, String searchWord) {
+    public BooksLoader(Context context, String searchWord) {
         super(context);
         mContext = context;
         mSearchWord = searchWord;

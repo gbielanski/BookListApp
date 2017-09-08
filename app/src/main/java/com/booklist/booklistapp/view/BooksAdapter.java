@@ -1,4 +1,4 @@
-package com.booklist.booklistapp;
+package com.booklist.booklistapp.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.booklist.booklistapp.R;
+import com.booklist.booklistapp.model.Book;
+
 import java.util.List;
 
-class BooksAdapter extends ArrayAdapter<Book> {
-    BooksAdapter(@NonNull Context context, @NonNull List<Book> books) {
+public class BooksAdapter extends ArrayAdapter<Book> {
+    public BooksAdapter(@NonNull Context context, @NonNull List<Book> books) {
         super(context, 0, books);
     }
 

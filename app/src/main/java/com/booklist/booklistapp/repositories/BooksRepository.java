@@ -1,6 +1,6 @@
 package com.booklist.booklistapp.repositories;
 
-import com.booklist.booklistapp.Book;
+import com.booklist.booklistapp.model.Book;
 
 import java.util.List;
 

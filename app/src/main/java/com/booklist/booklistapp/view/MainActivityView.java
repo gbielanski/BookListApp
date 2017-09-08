@@ -1,5 +1,7 @@
-package com.booklist.booklistapp;
+package com.booklist.booklistapp.view;
 
+
+import com.booklist.booklistapp.model.Book;
 
 import java.util.List;
 
