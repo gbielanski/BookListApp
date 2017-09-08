@@ -8,8 +8,6 @@ import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,9 +20,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.booklist.booklistapp.R.id.empty_text_view;
-import static com.booklist.booklistapp.R.id.search_button;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>,
+    MainActivityView
+{
 
     private static final String SEARCH_WORD = "SEARCH_WORD";
     private static final int LOADER_ID = 12345;
@@ -35,13 +34,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.books_list_view) ListView booksListView;
     private BooksAdapter mAdapter;
     private final String LISTVIEW_STATE = "LISTVIEW_STATE";
+    private MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        presenter = new MainActivityPresenter(this, null);
         String savedSearchString = "";
         if (savedInstanceState != null)
             savedSearchString = savedInstanceState.getString(SAVED_SEARCH_STRING);
@@ -121,5 +121,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         outState.putParcelable(LISTVIEW_STATE, listState);
         outState.putString(SAVED_SEARCH_STRING, searchEditText.getText().toString());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void displayBooks(List<Book> books) {
+
+    }
+
+    @Override
+    public void displayNoBooks() {
+
     }
 }

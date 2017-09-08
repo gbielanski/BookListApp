@@ -2,7 +2,10 @@ package com.booklist.booklistapp;
 
 import android.support.annotation.NonNull;
 
-class Book {
+public class Book {
+    public Book() {
+    }
+
     Book(String [] authorsNames, String title) {
         this.mAuthorsNames = authorsNames;
         this.mTitle = title;
