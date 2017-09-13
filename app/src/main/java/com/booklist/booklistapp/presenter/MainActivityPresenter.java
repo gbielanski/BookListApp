@@ -6,12 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.SupportActivity;
 import android.support.v4.content.Loader;
 
-import com.booklist.booklistapp.R;
 import com.booklist.booklistapp.model.BooksLoader;
-import com.booklist.booklistapp.view.MainActivity;
 import com.booklist.booklistapp.view.MainActivityView;
 import com.booklist.booklistapp.model.Book;
 
@@ -19,7 +16,7 @@ import java.util.List;
 
 import static com.booklist.booklistapp.view.MainActivity.SEARCH_WORD;
 
-public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List<Book>>, Presenter{
+public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List<Book>>, Presenter {
     private static final int LOADER_ID = 12345;
 
     private MainActivityView view;
@@ -44,7 +41,6 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
             view.displayNoBooks();
         else
             view.displayBooks(books);
-
     }
 
     @Override
@@ -56,7 +52,7 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
     @Override
     public void onCreate(String savedSearchString) {
 
-        if(savedSearchString.isEmpty() == false){
+        if (savedSearchString.isEmpty() == false) {
             Bundle bundle = new Bundle();
             bundle.putString(SEARCH_WORD, savedSearchString);
             searchOnCreate(savedSearchString);
@@ -64,14 +60,7 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
     }
 
     private void searchOnCreate(String savedSearchString) {
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        if (isConnected) {
+        if (isConnected()) {
             if (!savedSearchString.isEmpty()) {
                 Bundle bundle = new Bundle();
                 bundle.putString(SEARCH_WORD, savedSearchString);
@@ -81,15 +70,17 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
             view.displayNoConnection();
     }
 
-    private void search(String savedSearchString) {
+    private boolean isConnected() {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
+        return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+    }
 
-        if (isConnected) {
+    private void search(String savedSearchString) {
+        if (isConnected()) {
             if (!savedSearchString.isEmpty()) {
                 Bundle bundle = new Bundle();
                 bundle.putString(SEARCH_WORD, savedSearchString);

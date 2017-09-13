@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView
 
     public static final String SEARCH_WORD = "SEARCH_WORD";
     private static final String SAVED_SEARCH_STRING = "SAVED_SEARCH_STRING";
+    public static String boook_api_key;
 
     @BindView(R.id.search_editText) EditText searchEditText;
     @BindView(R.id.empty_text_view) TextView emptyTextView;
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = new MainActivityPresenter(this, null, this, getSupportLoaderManager());
+        boook_api_key = getString(R.string.book_api_key);
+        presenter = new MainActivityPresenter(this, this, getSupportLoaderManager());
         String savedSearchString = "";
         if (savedInstanceState != null)
             savedSearchString = savedInstanceState.getString(SAVED_SEARCH_STRING);

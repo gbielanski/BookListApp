@@ -7,6 +7,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 
 import com.booklist.booklistapp.R;
+import com.booklist.booklistapp.view.MainActivity;
 
 import java.net.URL;
 import java.util.List;
@@ -14,14 +15,12 @@ import java.util.List;
 
 public class BooksLoader extends AsyncTaskLoader<List<Book>> {
 
-    final private Context mContext;
     final private String mSearchWord;
 
     private List<Book> mData;
 
     public BooksLoader(Context context, String searchWord) {
         super(context);
-        mContext = context;
         mSearchWord = searchWord;
     }
 
@@ -37,7 +36,7 @@ public class BooksLoader extends AsyncTaskLoader<List<Book>> {
 
     @Override
     public List<Book> loadInBackground() {
-        URL url = QueryUtils.getApiURL(mSearchWord, mContext.getString(R.string.book_api_key));
+        URL url = QueryUtils.getApiURL(mSearchWord, MainActivity.boook_api_key);
         if (url == null)
             mData = null;
         else
