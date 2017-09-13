@@ -20,19 +20,15 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
     private static final int LOADER_ID = 12345;
 
     private MainActivityView view;
-    private Context context;
-    private final LoaderManager loaderManager;
 
-    public MainActivityPresenter(MainActivityView view, Context context, LoaderManager supportLoaderManager) {
+    public MainActivityPresenter(MainActivityView view) {
         this.view = view;
-        this.context = context;
-        loaderManager = supportLoaderManager;
     }
 
     @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
         String searchWord = args.getString(SEARCH_WORD);
-        return new BooksLoader(context, searchWord);
+        return new BooksLoader(view.getViewContext(), searchWord);
     }
 
     @Override
@@ -64,7 +60,7 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
             if (!savedSearchString.isEmpty()) {
                 Bundle bundle = new Bundle();
                 bundle.putString(SEARCH_WORD, savedSearchString);
-                loaderManager.initLoader(LOADER_ID, bundle, this);
+                view.getViewLoaderManager().initLoader(LOADER_ID, bundle, this);
             }
         } else
             view.displayNoConnection();
@@ -72,7 +68,7 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
 
     private boolean isConnected() {
         ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) view.getViewContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null &&
@@ -84,7 +80,7 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
             if (!savedSearchString.isEmpty()) {
                 Bundle bundle = new Bundle();
                 bundle.putString(SEARCH_WORD, savedSearchString);
-                loaderManager.restartLoader(LOADER_ID, bundle, this);
+                view.getViewLoaderManager().restartLoader(LOADER_ID, bundle, this);
             }
         } else
             view.displayNoConnection();

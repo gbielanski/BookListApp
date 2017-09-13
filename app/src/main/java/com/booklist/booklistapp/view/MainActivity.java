@@ -3,6 +3,7 @@ package com.booklist.booklistapp.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         boook_api_key = getString(R.string.book_api_key);
-        presenter = new MainActivityPresenter(this, this, getSupportLoaderManager());
+        presenter = new MainActivityPresenter(this);
         String savedSearchString = "";
         if (savedInstanceState != null)
             savedSearchString = savedInstanceState.getString(SAVED_SEARCH_STRING);
@@ -89,4 +90,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityView
         mAdapter.notifyDataSetChanged();
         emptyTextView.setText(getString(R.string.no_connection));
     }
+
+    @Override
+    public LoaderManager getViewLoaderManager() {
+        return this.getSupportLoaderManager();
+    }
+
+    @Override
+    public Context getViewContext() {
+        return this;
+    }
+
 }
