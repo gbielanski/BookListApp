@@ -14,7 +14,6 @@ import com.booklist.booklistapp.model.BooksLoader;
 import com.booklist.booklistapp.view.MainActivity;
 import com.booklist.booklistapp.view.MainActivityView;
 import com.booklist.booklistapp.model.Book;
-import com.booklist.booklistapp.repositories.BooksRepository;
 
 import java.util.List;
 
@@ -24,24 +23,13 @@ public class MainActivityPresenter implements LoaderManager.LoaderCallbacks<List
     private static final int LOADER_ID = 12345;
 
     private MainActivityView view;
-    private BooksRepository booksRepository;
     private Context context;
     private final LoaderManager loaderManager;
 
-    public MainActivityPresenter(MainActivityView view, BooksRepository booksRepository, Context context, LoaderManager supportLoaderManager) {
+    public MainActivityPresenter(MainActivityView view, Context context, LoaderManager supportLoaderManager) {
         this.view = view;
-        this.booksRepository = booksRepository;
         this.context = context;
         loaderManager = supportLoaderManager;
-    }
-
-    public void loadBooks() {
-        List<Book> bookList = booksRepository.getBooks();
-
-        if(bookList.isEmpty())
-            view.displayNoBooks();
-        else
-            view.displayBooks(bookList);
     }
 
     @Override
